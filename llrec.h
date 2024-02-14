@@ -76,38 +76,23 @@ Node* llfilter(Node* head, Comp pred);
 // Since template implementations should be in a header file, we will
 // implement the above function now.
 //*****************************************************************************
-
+//return the head of the new list
 template <typename Comp>
 Node* llfilter(Node* head, Comp pred)
 {
+    //implement recursively
     //*********************************************
     // Provide your implementation below
     //*********************************************
-    Node *current = head;
-    Node *prev = NULL;
-    while (current != NULL)
-    {
-        if (pred(current->val))
-        {
-            if (prev == NULL)
-            {
-                head = current->next;
-                delete current;
-                current = head;
-            }
-            else
-            {
-                prev->next = current->next;
-                delete current;
-                current = prev->next;
-            }
-        }
-        else
-        {
-            prev = current;
-            current = current->next;
-        }
+    if (head == NULL) {
+        return NULL;
     }
+    if(pred(head->val)) {
+        Node* temp = head->next;
+        delete head;
+        return llfilter(temp, pred);
+    }
+    head->next = llfilter(head->next, pred);
     return head;
 }
 
